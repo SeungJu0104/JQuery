@@ -1,0 +1,162 @@
+<!-- 
+jQuery
+: 자바스크립트 라이브러리
+(자바 스크립트를 좀 더 간단하고 쉽게 사용할 목적)
+
+jQuery 적용 방법 1
+다운 받은 파일을 가져온다.
+<script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js"></script>
+    
+jQuery 적용 방법 2
+jQuery CDN과 연결한다.
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+jQuery 대신 $을 써도 정상적으로 jQuery 동작한다.
+코드 작성할 스크립트 태그와 jQuery연결하는 스크립트 태그는 별개로 생성한다.
+(jQuery 연결 스크립트 태그 내에 코드 작성해도 인식 못한다.)
+
+selector 표현식
+: jQuery("찾을 태그")[.eq(해당 인덱스 번호)]
+: $("찾을 태그")[.eq(해당 인덱스 번호)]
+([]부분은 여러개 있을 때 배열에서 몇번째인지 ()안에 적어서 사용한다.)
+
+window.onload 
+: 페이지 내의 코드를 모두 읽은 후 실행
+: $(document).ready(function(){} 또는 별도 함수명); ==> 자바 스크립트의 window.onload = function(){;}
+: $(function(){});
+
+ex) $(function(){
+    alert("페이지 코드 읽은 후 실행")
+    })
+
+jQuery CSS 변경
+: 태그명 또는 태그 찾아와서.css("속성명","변경할 내용").css("속성명","변경할 내용"), ...;
+: 태그명 또는 태그 찾아와서.css({"속성명":"변경할 내용","속성명":"변경할 내용",....});
+: 여러개 적용 가능하다.
+
+jQuery 함수
+1. show 함수
+: 숨기기 처리 되어 있던 것을 다시 보여준다.(display : block;)
+: 태그명 또는 태그 찾아와서.show();
+
+2. hide 함수
+: 숨기기 처리 한다.(display : none;)
+: 태그명 또는 태그 찾아와서.hide();
+
+3. toggle 함수
+: 숨기기 처리 되어있다면 보여주고, 보여주고 있다면 숨기기 처리 해준다.
+(display : block;)(display : none;)
+: 태그명 또는 태그 찾아와서.toggle();
+
+
+
+
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery</title>
+    <style>
+        img{
+            width: 200px;
+            display: none;
+        }
+    </style>
+    <!-- jQuery 적용 방법 1 -->
+    <!-- 다운 받은 파일을 가져온다. -->
+    <!-- <script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js"></script> -->
+    
+    <!-- jQuery 적용 방법 2 -->
+    <!-- jQuery CDN과 연결한다. -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <script type="text/javascript">
+        function highlight(){
+            // id가 list01인 엘리먼트의 자식 li를 찾아서,
+            // 그 중 첫번째 li 태그의 배경색을 pink로 변경한다.
+
+            // JS 코드
+            document.querySelectorAll("#list01 > li")[0].style.backgroundColor = "pink";
+
+
+            // JQ 코드
+            jQuery("#list01 > li").eq(0).css("background-color", "blue");
+
+            // JQ 코드 간략화
+            $("#list01 > li").eq(0).css("background-color", "aqua");
+
+            // li 태그 전부 배경색 변경
+
+            // JS 코드
+            let lis = document.querySelectorAll("li");
+            
+            // for(let i in lis){
+            //     console.log(i);
+            //     i.style.backgroundColor = "pink";
+            // }
+            // 변수 i에 lis 배열의 값을 담으면 배열 인덱스 번호만 저장한다.
+            // 변수 i에 배열을 복사하는 개념이어서??
+
+            for(let i = 0; i < lis.length; i++){
+                lis[i].style.backgroundColor = "pink";
+            }
+
+            // JQ 코드 간략화
+
+            $("li").css("background-color","blue");
+
+        }
+
+        // 이미지 보이기
+        function showImg(){
+            $("img").show();
+        }
+
+        // 이미지 태그 클릭하면 이미지 숨기기
+        // window.onload : 페이지 내의 코드를 모두 읽은 후 실행
+        $(function(){// window.onload
+            $("img").click(function(){
+                $(this).hide();
+            })
+            // 이미지 태그 찾아 클릭했을 때 함수를 실행시킨다.
+            // document.getElementsByTagName[0].onclick = function(){} 와 동일 내용
+        })
+
+        // 이미지 축소 및 명도? 조절
+        function resizeImg(){
+            // $("img").css("width", "100px").css("opacity","0.5");
+            $("img").css({"width":"100px","opacity":"0.5"});
+        }
+
+        // 이미지 숨기기 및 보이기 처리
+        function toggle(){
+            $("img").toggle();
+            
+        }
+        
+    </script>
+</head>
+ <body>
+    <h1>jQuery 시작</h1>
+    <ul id="list01">
+        <li>1. 셀렉터 표현식</li>
+        <li>2. DOM 탐색</li>
+        <li>3. 이벤트</li>
+        <li>4. 이펙트</li>
+        <li>5. Ajax</li>
+    </ul>
+    <button onclick="highlight();">리스트 강조하기</button>
+
+    <button onclick="showImg();">이미지 보이기</button>
+    <button onclick="resizeImg();">이미지 축소</button>
+    <button onclick="toggle();">이미지 숨기기 / 보이기</button>
+
+    <div>
+        <img src="../sample/image/img01.png">
+    </div>
+    
+ </body>
+ </html>
