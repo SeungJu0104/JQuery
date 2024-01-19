@@ -1,0 +1,117 @@
+<!-- 
+
+"" 안에 ''를 넣거나 '' 안에 ""를 넣으면 후자 '', ""는 그 문장 내에서 문자 처리한다는 의미이다.
+
+selector 표현식
+1. 태그명으로 선택하기
+: $("태그명");
+: jQuery("태그명");
+(해당 태그가 페이지에 하나 밖에 없을 때는 .eq(인덱스 번호) 안해도 찾아온다.)
+(따로 선택 안한 상태로 별도 설정하면, 자바 스크립트와 다르게 찾아온 것 모두에 별도 설정이 적용된다.)
+
+2. ID로 선택하기
+: $("#ID명");
+: jQuery("#ID명");
+
+3. 클래스로 선택하기
+: $(".클래스명");
+: jQuery(".클래스명");
+(해당 태그가 페이지에 하나 밖에 없을 때는 .eq(인덱스 번호) 안해도 찾아온다.)
+(따로 선택 안한 상태로 별도 설정하면, 자바 스크립트와 다르게 찾아온 것 모두에 별도 설정이 적용된다.)
+
+4. nth-child로 선택하기
+: child라고 써져있어 자식 태그 찾는거라 착각할 수 있으나,
+해당 태그들 중 n번째 요소를 선택하는 것이다.
+: $("태그명:nth-child(태그들 중 몇번째 태그인지 숫자)");
+(()안에 odd를 넣으면 홀수 번째 태그만, even을 넣으면 짝수 번째 태그만 갖고 온다.)
+(인덱스 번호는 아니다. 단순히 1부터 시작해서 몇번째 태그인지 적으면 된다.)
+
+5. first-child로 선택하기
+: 해당 태그들 중 첫번째 태그를 선택한다.
+: $("태그명:first-child");
+
+6. last-child로 선택하기
+: 해당 태그들 중 마지막 태그를 선택한다.
+: $("태그명:last-child");
+
+
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>selector</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+        function a1(){
+            $("span").css("color","red");
+            $("#view").text('$("span").css("color","red");');
+        }
+
+        function a2(){
+            $("#t1").css("color","blue");
+            $("#view").text('$("#t1").css("color","blue");');
+        }
+
+        function a3(){
+            $(".t2").css({"color":"pink"});
+            $("#view").text('$(".t2").css({"color":"pink"});');
+        }
+
+        function a4(){
+            $("li:nth-child(2)").css("color","yellow");
+            // $("li:nth-child(odd)").css("color","yellow"); // 홀수번째 태그만
+            // $("li:nth-child(even)").css("color","yellow"); // 짝수번째 태그만
+            $("#view").text('$("li:nth-child(2)").css("color","yellow");');
+        }
+
+        function a5(){
+            $("li:first-child").css("background-color","gray");
+            $("#view").text('$("li:first-child").css("background-color","gray");');
+        }
+
+        function a6(){
+            $("li:last-child").css("background-color","green");
+            $("#view").text(' $("li:last-child").css("background-color","green");');
+        }
+
+    </script>
+</head>
+ <body>
+    <h1>selector 표현식</h1>
+    <div>
+        <ul>
+            <li><span>tag로 선택하기</span></li>
+            <li id="t1">ID로 선택하기</li>
+            <li class="t2">class로 선택하기</li>
+            <li>:nth-child(n/odd/even)으로 선택하기</li>
+            <li>:first-child로 선택하기</li>
+            <li>:last-child로 선택하기</li>
+        </ul>
+
+    </div>
+
+    <hr>
+
+    <div>
+        <button onclick="a1();">태그 선택(span)</button>
+        <button onclick="a2();">아이디 선택(t1)</button>
+        <button onclick="a3();">클래스 선택(t2)</button>
+        <button onclick="a4();">nth-child 선택</button>
+        <button onclick="a5();">first-child 선택</button>
+        <button onclick="a6();">last-child 선택</button>
+    </div>
+
+    <hr>
+
+    <h2>코드 내용</h2>
+    <div id="view">
+
+
+
+
+    </div>
+ </body>
+ </html>

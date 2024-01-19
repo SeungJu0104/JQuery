@@ -1,0 +1,136 @@
+<!-- 
+selector 표현식
+7. name 으로 선택하기
+: $("태그명[name=이름]");
+(여러개면 여러개 모두 선택한다.)
+
+8. 필터 걸어 선택하기
+: $("태그명:필터 내용");
+ex)$("input[name=chk]:checked");
+
+jQuery 함수
+
+submit 함수
+: form 태그에서 submit 이벤트 발생하면 실행
+(자바 스크립트의 onsubmit)
+: 태그명 또는 태그 갖고와서.submit();
+
+each 함수
+: 오브젝트나 배열에서 사용할 수 있는 반복 함수
+: 반복문처럼 각각에 내용을 실행한다.
+: 태그명 또는 태그 갖고와서.each(내용 또는 함수);
+
+prop 함수
+: 속성 적용
+: 태그명 또는 태그 갖고와서.prop("속성명","내용" 또는 내용 담긴 변수명);
+
+eq 함수
+: 해당 인덱스 번호의 엘리먼트를 선택한다.
+: 태그명 또는 태그 갖고와서.eq(인덱스 번호);
+
+next 함수
+: 해당 요소의 다음 요소를 갖고 온다.
+: 태그명 또는 태그 갖고와서.next();
+
+empty 함수
+: 해당 요소의 내용을 지운다.
+: 태그명 또는 태그 갖고와서.empty();
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>selector</title>
+    <script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js">
+    </script>
+
+    <script type="text/javascript">
+        function allchk(checked){
+            // 1. each 이용
+            // if(checked){
+            //     $("input[name=chk]").each(function(){
+            //         $(this).prop("checked",bool);
+            //     });
+            // }
+            
+            // 2. 
+            // 어차피 다 가져오기 때문에 따로 반복 줄 필요없다.
+            $("input[name=chk]").prop("checked",checked);
+        }
+
+        $(document).ready(function(){// window.onload
+            // 자바 스크립트 document.getElementById("signal").onsubmit = function(){;}
+            $("#signal").submit(function(){// form 태그에 submit 이벤트 발생하면
+                if($(".infobox").val() == "" || $(".infobox").val() == null){
+                    $(".error").show();
+                    return false;
+                    // 값을 입력하지 않았을 때, submit의 서버에 값을 넘기는 기본 동작을 실행시키지 않는다.
+                }
+            });
+
+            // 체크박스가 전체 선택된 상태에서 하나라도 체크 해제하면 전체 선택 버튼 체크 해제
+            $("input[name=chk]").click(function(){// name이 chk인 input 태그에 click 이벤트 발생하면
+                if($("input[name=chk]").length != $("input[name=chk]:checked").length){
+                    $("input[name=all]").prop("checked",false);
+                //전체 박스 개수와 선택된 박스 개수가 같지 않으면 다 선택된 것이 아니므로 전체 선택 해제
+                }else{
+                    $("input[name=all]").prop("checked",true);
+                }
+                //전체 박스 개수와 선택된 박스 개수가 같으면 다 선택된 것이므로 전체 선택 설정
+                
+            });
+
+            $("#confirm").click(function(){
+                // 선택한 요소의 내용을 지운다.
+                $("#res").empty();
+
+                if($("input[name=chk]:checked").length == 0){
+                    alert("하나 이상 선택해주세요.");
+                }else{
+                    $("input[name=chk]:checked").each(function(i){
+                        //input[name=chk]:checked == true;
+                        console.log(i); // 체크된 체크박스의 인덱스 번호가 넘어온다.
+                        let chk = $("input[name=chk]:checked").eq(i);
+                        console.log(chk);
+
+                        let book = chk.next().text(); //next()는 다음 요소 탐색
+                        // 여기서는 chk.next()는 b태그를 의미한다.
+                        let price = chk.val();
+                        
+                        $("#res").append(book + "가격: " + price + "<br> ");
+                    });
+                }
+            });
+
+        });
+        // window.onload 안하면 제대로 실행 안된다.
+
+
+    </script>
+ </head>
+ <body>
+    <form id="signal">
+        <div>
+            <span class="label">User Id</span>
+            <input type="text" class="infobox" name="userId">
+            <span class="error" style="color:red; display:none;">반드시 입력하세요</span>
+        </div>
+        <input type="submit" class="submit" value="입력하기">
+
+    </form>
+    <hr>
+    <fieldset style="width:300px;">
+        <legend>체크 여부 확인</legend>
+        <input type="checkbox" name="all" onclick="allchk(this.checked);">전체선택<br>
+        <input type="checkbox" name="chk" value="200"><b>JAVA</b><br>
+        <input type="checkbox" name="chk" value="250"><b>JS</b><br>
+        <input type="checkbox" name="chk" value="300"><b>Spring</b><br>
+
+        <input type="button" value="확인" id="confirm">
+        <div id="res"></div>
+    </fieldset>
+
+ </body>
+ </html>

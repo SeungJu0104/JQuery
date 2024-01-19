@@ -1,0 +1,59 @@
+<!-- 
+value 값 접근
+: 태그명 또는 태그 갖고와서.val();
+(input 사용하면 $("input : input의 타입명");)
+
+HTML
+: 태그명 또는 태그 갖고와서.html("내용" 또는 내용 담긴 변수명);
+(자바 스크립트의 innerHTML)
+(단 내용이나 내용 담긴 변수명에 태그가 있다면 그 태그 해석해서 내용 출력한다.)
+
+text
+: 태그명 또는 태그 갖고와서.text("내용" 또는 내용 담긴 변수명);
+(단 내용이나 내용 담긴 변수명에 태그가 있어도 그냥 그대로 텍스트로 출력한다.)
+
+
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>selector</title>
+    <script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+        function test01(){
+            let inputVal = $("input:text").val();
+            $("#res").html(inputVal);
+            $("#res").text(inputVal);
+        }
+
+        function test02(){
+            let inputVal = $("input:radio").val();
+            $("#res").html(inputVal);
+        }
+
+        function test03(){
+            let inputVal = $("input:checkbox").val();
+            $("#res").html(inputVal);
+        }
+    </script>
+ </head>
+ <body>
+    <form>
+        <input type="text">
+        <input type="button" value="선택" onclick="test01();">
+        <br>
+        <input type="radio" value="23/05/10 ~ " onclick="test02();">23년 5월 10일
+        <input type="checkbox" value="멀티캠퍼스" onclick="test03();">멀티캠퍼스
+
+    </form>
+
+    <div id="res">
+
+
+    </div>
+    
+ </body>
+ </html>
