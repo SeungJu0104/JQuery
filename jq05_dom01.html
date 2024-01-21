@@ -1,0 +1,82 @@
+<!-- 
+DOM 탐색
+
+필터링
+
+eq 함수
+: 선택한 엘리먼트들 중 인덱스로 탐색한다.
+: 태그명 또는 태그 가져와서.eq(인덱스 번호);
+: $("태그명:eq(인덱스 번호)");
+
+slice 함수
+: 선택한 엘리먼트들 중 인덱스 길이로 탐색한다.
+: 태그명 또는 태그 가져와서.slice(시작 인덱스 번호, 종료 인덱스 번호);
+(시작 인덱스 번호 부터 종료 인덱스 번호 -1까지 탐색한다.)
+
+first 함수
+: 선택한 엘리먼트들 중 첫번째 요소 탐색한다.
+: 태그명 또는 태그 가져와서.first();
+
+last 함수
+: 선택한 엘리먼트들 중 마지막 요소 탐색한다.
+: 태그명 또는 태그 가져와서.last();
+
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM</title>
+    <script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){//window.onload
+            $("div>p").eq(0).click(function(){
+                $("pre b").eq(0).toggle(); // 하위 선택자 이용해 태그 찾아 toggle 함수 적용
+                
+            });
+
+            $("div>p").eq(1).click(function(){
+                console.log($("pre b"));
+                $("pre b").slice(1,2).toggle(); // pre 내 b태그 중 1번째 인덱스에 위치한 b태그에 toggle 함수 적용
+
+            });
+
+            $("div>p").eq(2).click(function(){
+                $("pre b").first().css("color","red"); // pre 내 b태그 중 첫번째 태그에 빨강 글자색 적용
+                $("pre b").eq(2).toggle();
+            });
+
+            $("div p").eq(3).click(function(){
+                $("pre b").last().toggle();// pre 내 b 태그 중 마지막 태그에 toggle 함수 적용
+            });
+
+        });
+
+
+
+
+
+
+
+
+    </script>
+ </head>
+ <body>
+    <pre>
+        <b>eq(): 선택한 엘리먼트들 중 인덱스로 탐색</b>
+        <b>slice(): 선택한 엘리먼트들 중 인덱스 길이로 탐색한다.</b>
+        <b>first(): 선택한 엘리먼트들 중 첫번째 요소 탐색한다.</b>
+        <b>last(): 선택한 엘리먼트들 중 마지막 요소 탐색한다.</b>
+    </pre>
+
+    <div>
+        <p>eq()</p>
+        <p>slice()</p>
+        <p>first()</p>
+        <p>last()</p>
+    </div>
+    
+ </body>
+ </html>
