@@ -1,0 +1,81 @@
+<!-- 
+
+DOM 탐색
+
+트리 탐색
+
+find 함수
+: 선택한 요소의 자손 요소들(자식 + 그 하위들 전체) 중에서 탐색한다.
+(children 함수와 다르다.)
+: 선택한 태그명 또는 태그 가져와서.find(["선택자"]);
+([]부분은 생략 가능)
+(따로 []부분 없으면 가장 하위 태그 탐색?)
+
+children 함수
+: 선택한 요소의 자식 요소들(오직 자식만) 중에서 탐색한다.
+(find 함수와 다르다.)
+: 선택한 태그명 또는 태그 가져와서.children(["선택자"]);
+([]부분은 생략 가능)
+
+parent / parents 함수
+: 선택한 요소의 부모 요소(오직 부모만)를 탐색한다.
+: 선택한 태그명 또는 태그 가져와서.parent(["선택자"]);
+([]부분은 생략 가능)
+
+parents 함수
+: 선택한 요소의 부모 요소들(부모 + 그 상위들 전체)을 탐색한다.
+: 선택한 태그명 또는 태그 가져와서.parents(["선택자"]);
+([]부분은 생략 가능)
+(별도로 []부분 지정 안하면 최상위까지 올라간다.)
+
+next 함수
+: 선택한 요소의 다음 요소를 탐색한다.
+: next();
+
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM</title>
+    <script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){ // window.onload
+            $("div").find("b").css({"font-size":"30pt","color":"red"}); // div 태그의 손자 태그인 b 태그를 찾아 CSS 적용
+            $("div").find().css({"font-size":"30pt","color":"red"});
+            $("div").children("#chd").text("2. children()"); // div 태그의 자식 요소들 중 아이디가 chd인 태그를 찾아 "2. children"을 내용에 넣는다.
+            // $("div").children("b").text("2. children()"); // children 함수는 오직 자식 요소만 찾기 때문에 손자 요소인 b 태그는 탐색 범위가 아니다.
+            $("p").parent("div").css("background-color","skyblue"); // p 태그의 부모인 div 태그에 CSS 적용
+            $("p").parent().css("background-color","pink"); // p 태그의 부모인 div 태그에 CSS 적용
+
+            $("p>b").parents("div").css("background-color","green"); // b 태그의 상위 요소들 중 div 태그에 CSS 적용
+            // $("p>b").parents().css("background-color","blue"); // b 태그의 상위 요소들 중 body 태그에 CSS 적용
+
+            $("p").eq(0).next().css({"font-size":"30pt","color":"blue"}); // p태그들 중 0번째 인덱스에 위치한 p태그에 CSS 적용
+        });
+
+
+
+
+    </script>
+ </head>
+ <body>
+    <pre>
+        <b>find("선택자"): 선택한 엘리먼트의 자손 요소들(자식 + 그 하위들 전체) 중에서 탐색한다.</b>
+        <b>children("선택자"): 선택한 요소의 자식 요소들 중에서 탐색한다.</b>
+        <b>parent() / parents(): 선택한 요소의 부모 요소를 찾는다.</b>
+        <b>next(): 선택한 요소의 다음 요소를 찾는다.</b>
+    </pre>
+
+    <div>
+        <p><b>1</b></p>
+        <p id="chd">2</p>
+        <p>3</p>
+        <p>4</p>
+        <p>5</p>
+    </div>
+    
+ </body>
+ </html>
