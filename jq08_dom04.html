@@ -1,0 +1,85 @@
+<!-- 
+
+hover
+: 마우스를 특정 요소 위에 올리면 실행하는 이벤트
+: .hover(handlerin, handlerout);
+(handlerin은 이벤트 발생했을 때 함수, handlerout은 이벤트 종료됐을 때 함수)
+
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM</title>
+    <style type="text/css">
+        .menu{
+            width:150px;
+            background-color: pink;
+            position:absolute; /* body를 기준으로 정렬 */
+        }
+
+        #menu2{
+            left:170px;
+        }
+
+        #menu3{
+            left: 330px;
+        }
+
+        a{
+            text-decoration: none;
+        }
+
+        .menu div{ /* menu 클래스의 하위 div 태그들 */
+            display: none;
+        }
+    </style>
+
+    <script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            // hover(handlerin, handlerout)
+            // handlerin은 이벤트 발생했을 때 함수, handlerout은 이벤트 종료됐을 때 함수
+            $(".menu").hover(function(){ // 클래스가 menu인 태그에 마우스를 올리면
+                console.log($(this));
+                $(this).children("div").show();
+                // hover한 태그의 자식 태그들 중 div 태그들만 보여준다.
+            }, function(){ // 클래스가 menu인 태그에 마우스를 내리면
+                console.log($(this));
+                $(this).children("div").hide();
+                // hover한 태그의 자식 태그들 중 div 태그들만 숨긴다.
+            });
+        });
+
+    </script>
+ </head>
+ <body>
+    <b>DOM 탐색</b>
+
+    <div id="menu1" class="menu">
+        <a href="jq05_dom01.html">필터링</a>
+        <div>.eq()</div>
+        <div>.slice()</div>
+        <div>.first()</div>
+        <div>.last()</div>
+    </div>
+
+    <div id="menu2" class="menu">
+        <a href="jq06_dom02.html">트리 탐색</a>
+        <div>.find()</div>
+        <div>.children()</div>
+        <div>.parent()</div>
+        <div>.parents()</div>
+        <div>.next()</div>
+    </div>
+
+    <div id="menu3" class="menu">
+        <a href="jq07_dom03.html">기타</a>
+        <div>.add()</div>
+        <div>.is()</div>
+    </div>
+
+ </body>
+ </html>
