@@ -1,0 +1,161 @@
+<!-- 
+
+이벤트 전파(Event propagation)
+: 각 요소가 서로 포함(중첩) 관계인 경우,
+요소 중 하나에 이벤트가 발생하면 중첩 요소들에도 이벤트가 전파된다.
+
+이벤트 전파 해결
+1. stopPropagation 함수
+: 중첩 요소의 이벤트 동작을 막는다.
+: 이벤트 객체.stopPropagation();
+
+2. preventDefault 함수
+: 해당 이벤트 실행될 때, 태그의 기본 동작을 막는다.
+(태그에 false 줘서 기본 동작 막는 것 처럼)
+: 이벤트 객체.preventDefault();
+
+3. return false
+: 중첩 요소의 이벤트 동작과 해당 태그의 기본 동작 실행을 막는다.
+
+이벤트 연결
+
+bind 함수
+: 한번에 여러 이벤트 동작을 설정한다.
+: 태그명 또는 태그 가져와서.bind("이벤트명", 이벤트 동작 정의한 익명함수 또는 함수명);
+: 태그명 또는 태그 가져와서.bind({"이벤트명":이벤트 동작 정의한 익명함수 또는 함수명, "이벤트명":이벤트 동작 정의한 익명함수 또는 함수명, ...});
+(여러 이벤트 동작을 한번에 정의할 수도 있다.)
+
+이벤트 해제
+
+unbind 함수
+: 이벤트 연결을 해제한다.
+(bind 함수 이용해 연결한 것이 아니더라도 적용 가능하다.)
+: 태그명 또는 태그 가져와서.unbind();
+
+동적으로 추가된 요소에 이벤트 연결
+: 기본적으로 동적으로 추가된 태그들은 기존에 만든 이벤트와 연결이 되어 있지 않다.
+(onload될 당시에 없던 구문이기 때문이다.)
+(자바 스크립트에서도 동일하게 연결되어있지 않다.)
+: 그래서 on 함수 이용해서 별도로 연결해야한다.
+
+on 함수
+: 태그명 또는 태그 가져와서.on("이벤트명","갖고올 이벤트 태그명?",이벤트 동작 정의한 익명 함수 또는 함수명);
+
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        div{
+            width: 400px;
+            height: 200px;
+            border: 2px solid red;
+            padding: 20px;
+        }
+
+        div p:first-child{ /* div 태그는 2개 있고, 그 2개의 각각 첫번째 p 태그들 */
+            float: left;
+            border: 1px solid blue;
+            width: 150px;
+            height: 150px;
+            text-align: center;
+        }
+
+        div p:last-child{ /* div 태그는 2개 있고, 그 2개의 각각 마지막 p 태그들 */
+            float: right;
+            border: 1px solid blue;
+            width: 150px;
+            height: 150px;
+            text-align: center;
+        }
+
+
+    </style>
+    <script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){ // window.onload
+            $("a:eq(0)").click(function(e){ // 0번째 인덱스에 위치한 a태그를 클릭하면. e는 이벤트 객체
+                
+                alert("a 클릭");
+                e.stopPropagation(); // stopPropagation 함수
+                // a 태그 클릭했을 때 연쇄적으로 발생하는 p태그, div 태그의 이벤트 발생을 막는다.
+                // a 태그 클릭 이벤트만 발생한다.
+                e.preventDefault(); // preventDefault 함수
+                // a 태그의 기본 동작(페이지 이동)을 막는다.(이벤트 중첩 발생을 막는 것은 아니다.)
+                return false;
+                // 이벤트 전파와 해당 태그의 기본 동작 실행 모두 막는다.
+            });
+
+            $("p").click(function(){
+                alert("p 클릭");
+            });
+
+            $("div").click(function(){
+                alert("div 클릭");
+            });
+            // stopPropagation 함수, return false 사용하지 않았다고 가정한 상태에서
+            // div 태그 영역 내에 p태그, a 태그가 있으므로
+            // p 태그 또는 a 태그 하나만 클릭해도 연쇄적으로 클릭 이벤트가 동작한다.
+            // 이러한 현상을 이벤트 전파라고 부른다.
+
+            // 이벤트 연결
+            $("a:eq(1)").bind({"mouseover":function(){ // 1번째 인덱스의 a 태그에 마우스가 올라왔을 때
+                console.log($(this));
+                $(this).css("background-color","pink"); // 1번째 인덱스의 a 태그에 배경색 핑크로 변경
+            },"mouseout":function(){ // 1번째 인덱스의 a 태그에 마우스가 내려갔을 때
+                console.log($(this));
+                $(this).css("background-color","skyblue"); //1번째 인덱스의 a 태그에 배경색 하늘로 변경
+            }});
+
+            // 이벤트 연결 해제
+            $("span").click(function(){
+                alert("span 클릭");
+                $("a:eq(1)").unbind(); // bind 함수 이용해 만든 이벤트 연결 해제
+                $("div").unbind(); // bind 함수 이용하지 않은 이벤트 연결 해제
+            });
+
+            // span 태그 클릭했을 때 이벤트 작동 여부 확인
+            $("button").click(function(){
+                $("body").append("<span>새로 추가된 span태그</span><br>");
+                // 이걸로 만든 span 태그는 클릭 이벤트 작동 안한다.
+                // 왜냐하면 onload될 시점에는 해당 span 태그들은 없었기때문에 이벤트 연결이 안되어있다.
+                // 즉, 동적으로 추가된 요소들에는 이벤트 연결이 되어있지 않다.
+            });
+
+            // 동적으로 추가된 요소에도 이벤트 연결
+            // on 함수
+            $("body").on("click",">span",function(){ // body의 하위 태그들 중 span 태그들에 click 이벤트가 발생하면
+                alert("새로 추가된 요소도 이벤트 적용");
+            });
+
+        });
+
+    </script>
+</head>
+ <body>
+    <span>이벤트 해제</span>
+    <div>
+        <p>
+            <a href="https://www.naver.com">클릭</a>
+        </p>
+        <p>클릭</p>
+    </div>
+
+    <div>
+        <p>
+            <a href="https://www.google.com">클릭</a>
+        </p>
+        <p>
+            클릭
+        </p>
+    </div>
+
+    <button>요소 추가</button><br>
+
+    
+ </body>
+ </html>
