@@ -1,0 +1,85 @@
+<!-- 
+
+end 함수
+: 이전 태그를 선택한다.
+: 태그명 또는 태그 갖고와서.end();
+ex) $(this).next().slideToggle().end().parent();
+    (end는 이전 태그를 선택하므로 next 함수 이용해 다음 태그 선택하기 전인 $(this)를 선택한다.
+    그리고 this를 현 위치로해 end 함수 뒷 부분을 실행한다.
+    여기서는 $(this)의 부모 태그를 찾는다.)
+
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>effect</title>
+    <style type="text/css">
+        .main_menu{width: 300px;}
+        .sub_menu1{cursor:pointer} /* 변경된 커서가 하위에도 적용된다. */
+        .sub_menu2{cursor: default; display: none;} /* 그래서 하위에서 다시 커서를 변경한다. */
+    </style>
+    <script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("b").click(function(){
+                $(this).next().slideToggle(); // b태그와 숨김 처리된 ul 태그는 동일레벨에 있다. 그래서 next 함수 사용.
+            
+                $(this).parent().siblings().find("ul").slideUp();
+                // 여러 dom 탐색 함수 이용해 위치 찾아간다.
+                // 선택된 b태그(this)의 부모인 li 태그의 동일레벨 태그들에서 
+                // 그들이 가진 자손 요소들 중 ul 태그를 전부 갖고와 slideUp 한다.
+                
+                // 만약
+                // $(this).parents("li").find("ul").slideUp();
+                // 하면 내 부모 li도 포함되므로, 내가 선택한 b태그도 같이 slideUp 된다.
+
+
+                // 앞의 코드들을 한줄로 작성
+                // $(this).next().slideToggle().end().parent().siblings().find("ul").slideUp();
+                // end는 이전 태그 선택
+                // 여기서는 next 함수 전이므로 this가 선택된다.
+                // 그리고 this를 현위치로 parent() 등 남은 함수가 실행된다.
+            });
+
+        });
+
+    </script>
+ </head>
+ <body>
+    <p>메뉴 만들기</p>
+    <ul type="square" class="main_menu">
+        <li class="sub_menu1"><b>(1)css 선택자</b>
+            <ul type="circle" class="sub_menu2">
+                <li>tag로 선택하기</li>
+                <li>id로 선택하기</li>
+                <li>:nth-child로 선택하기</li>
+                <li>:last-child로 선택하기</li>
+            </ul>
+        </li>
+        <li class="sub_menu1"><b>(2)속성 선택자</b>
+            <ul type="circle" class="sub_menu2">
+                <li>[attr]</li>
+                <li>[attr = value]</li>
+            </ul>
+        </li>
+        <li class="sub_menu1"><b>(3)form 선택자</b>
+            <ul type="circle" class="sub_menu2">
+                <li>input : </li>
+            </ul>
+        </li>
+        <li class="sub_menu1"><b>(4)사용자 정의 선택자</b>
+            <ul type="circle" class="sub_menu2">
+                <li>:eq(n)</li>
+                <li>:first</li>
+                <li>:last</li>
+                <li>:even/odd</li>
+                <li>:parent</li>
+            </ul>
+        </li>
+    </ul>
+    
+ </body>
+ </html>
