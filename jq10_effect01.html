@@ -1,0 +1,145 @@
+<!-- 
+siblings 함수
+: 같은 레벨에 있는 다른 요소들 탐색
+(여러개 있으면 여러개 갖고 온다.)
+: 태그명 또는 태그 갖고와서.siblings("탐색할 다른 요소명");
+
+contains 함수
+: 해당 태그가 지정한 텍스트를 포함하고 있는지 탐색
+: 태그명 : contains(지정한 텍스트)
+: 태그명 또는 태그 갖고와서.contains(container, contained);
+ex) $(this).is("p:contains(fadeIn)");
+
+효과 관련 함수
+
+slideUp 함수
+: 접는 효과 함수
+: 태그명 또는 태그 갖고와서.slideUp();
+
+slideDown 함수
+: 접은 걸 펴는 효과 함수
+(slideUp 사용해서 slideDown 사용 가능하다.)
+: 태그명 또는 태그 갖고와서.slideDown();
+
+slideToggle 함수
+: 접었다면 펴는 효과를, 펴져있다면 접는 효과를 주는 함수
+: 태그명 또는 태그 갖고와서.slideToggle();
+
+fadeOut 함수
+: Opacity 가 점차적으로 감소한다.
+: 태그명 또는 태그 갖고와서.fadeOut();
+
+fadeIn 함수
+: Opacity 가 점차적으로 증가한다.
+: 태그명 또는 태그 갖고와서.fadeIn();
+
+fadeTo 함수
+: 지정한 Opactiy 값까지 점차적으로 바뀐다.
+: 태그명 또는 태그 갖고와서.fadeTo(시간, Opacity 값);
+(시간 단위는 ms)
+
+fadeToggle 함수
+: fadeIn 상태면 fadeOut으로, fadeOut 상태면 fadeIn 한다.
+: 태그명 또는 태그 갖고와서.fadeToggle();
+
+animate 함수
+: 지정 시간동안 변경하려는 속성들이 점진적으로 변경된다.
+: 태그명 또는 태그 갖고와서.animate({"변경하려는 속성명":"속성 값", ...}, 시간).animate({"변경하려는 속성명":"속성 값", ...}, 시간).animate(...);
+(시간 단위는 ms)
+(여러 속성 변경 가능하다.)
+(animate는 하나만 줄 수도 여러개도 줄 수 있다.)
+
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>effect</title>
+    <style>
+        img{
+            width: 200px;
+            position: absolute;
+            left: 200px;
+            top: 100px;
+        }
+
+        p{
+            width: 100px;
+            border: 1px solid red;
+            display: none;
+        }
+    </style>
+    <script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){ // window.onload
+            $("b").bind("click",function(){ 
+            // 여기서 사용한 bind 함수는 단순히 .click과 동일한 기능한다. 
+            // on 함수(.on("click",function(){});도 사용할 수 있지만 동적인 케이스 아니기때문에 굳이 쓸 필요 없다.
+                $("p").show();
+            });
+
+            $("p").click(function(){
+                let ele = $(this); // 여기서 this는 클릭된 p태그 자체
+                ele.css("background","pink");
+                // siblings() : 같은 레벨에 있는 다른 요소들을 탐색
+                ele.siblings("p").css("background","white"); // 클릭한 p태그와 같은 레벨에 있는 다른 p 태그들의 배경색을 흰색으로 만든다.
+                
+                // 필터와 is 함수, contains 함수 이용해 선택한 p태그가 slideUp이라는 텍스트 포함하고 있다면 true 값을 준다.
+                // is 함수로 클릭한 태그가 p 태그인지 확인하고, 필터와 contains 함수 이용해 그 p 태그의 내용에 slideUp이라는 내용을 갖고있는지 확인해서 있으면 true 값을 돌려주고, if문은 true면 그에 맞는 코드를 실행한다.
+                if(ele.is("p:contains(slideUp)")){
+                    $("img").slideUp();
+                }
+
+                // 필터와 is 함수, contains 함수 이용해 선택한 p태그가 slideDown이라는 텍스트 포함하고 있다면 true 값을 준다.
+                if(ele.is("p:contains(slideDown)")){
+                    $("img").slideDown();
+                }
+                
+                // 필터와 is 함수, contains 함수 이용해 선택한 p태그가 slideToggle이라는 텍스트 포함하고 있다면 true 값을 준다.
+                if(ele.is("p:contains(slideToggle)")){
+                    $("img").slideToggle();
+                }
+
+                if(ele.is("p:contains(fadeIn)")){
+                    $("img").fadeIn();
+                }
+            
+                if(ele.is("p:contains(fadeTo())")){
+                    $("img").fadeTo(2000,0.2); // 2000ms 동안 Opacity를 0.2로 점차적으로 바꾼다.
+                }
+
+                if(ele.is("p:contains(fadeToggle())")){
+                    $("img").fadeToggle();
+                }
+
+                if(ele.is("p:contains(animate)")){
+                    // 태그명 또는 태그 갖고와서.animate({"변경하려는 속성명":"속성 값", ...}, 시간);
+                    // (시간은 ms 단위)(animate는 하나만 줄 수도 있고, 여러개 줄 수 도 있다.)
+                    $("img").animate({"width":"500px", "left":"600px","top":"0px"},2000)
+                            .animate({"width":"350px","left":"200px","opacity":"0.5"},1000);
+                }
+            
+            });
+
+        });
+
+    </script>
+</head>
+ <body>
+    <b>이펙트</b>
+    <div>
+        <p>slideUp()</p>
+        <p>slideDown()</p>
+        <p>slideToggle()</p>
+        <p>fadeOut()</p>
+        <p>fadeIn()</p>
+        <p>fadeTo()</p>
+        <p>fadeToggle()</p>
+        <p>animate()</p>
+    </div>
+    
+    <img src="../sample/image/img02.png">
+ </body>
+ </html>
