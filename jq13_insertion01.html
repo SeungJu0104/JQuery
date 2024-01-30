@@ -1,0 +1,86 @@
+<!-- 
+
+prepend 함수
+: 내부에 첫번째로 추가된다.
+: 태그명 또는 태그 가져와서.prepend("추가할 내용" 또는 태그 담긴 변수명);
+(추가할 내용에 작성한 태그들 또한 읽어서 동작시킨다.)
+
+append 함수
+: 내부의 맨 뒤에 추가된다.
+(prepend와 다르게 첫번째로 추가되지 않는다.)
+(예를 들어, append 쓰다 prepend 쓰면 prepend가 맨 위에 나온다.)
+: 태그명 또는 태그 가져와서.append("추가할 내용" 또는 태그 담긴 변수명);
+
+appendTo 함수
+: 요소를 가져와 다른 요소의 마지막에 추가한다.
+: 태그명 또는 태그 가져와서.append(. 앞의 태그를 추가할 태그명 또는 태그 담긴 변수명);
+ex) $(".active").first().appendTo(div);
+
+html 함수
+: 내부에 추가가 아닌 변경한다.
+(html 내에 내용으로 변경한다.)
+(변경할 내용에 작성한 태그들 또한 읽어서 동작시킨다.)
+: 태그명 또는 태그 가져와서.html("변경할 내용" 또는 태그 담긴 변수명);
+
+text 함수
+: 내부에 추가가 아닌 변경한다.
+(text 내에 내용으로 변경한다.)
+(변경할 내용에 작성한 태그들 읽지 않는다. 태그들 그대로 문자열로 화면에 보여준다.)
+: 태그명 또는 태그 가져와서.text("변경할 내용" 또는 태그 담긴 변수명);
+
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertion</title>
+    <style type="text/css">
+        .prepend{
+            border: 2px dotted blue;
+        }
+    </style>
+    <script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("button:eq(0)").click(function(){
+                // $("div").prepend("<b>123<b>");
+                
+                $ele = $("<p>").addClass("prepend").text("prepend!");
+                // <p class="prepend">prepend!</p>
+                // ele 앞의 $는 jQuery로 만든 요소라는 의미이다.
+
+                $("div").prepend($ele); 
+                // ele 변수 안에 있는 p태그를 정상적으로 읽어 div 태그 안에 추가한다.
+                
+            });
+
+            $("button:eq(1)").click(function(){
+                $("div").append($("<p>").text("append"));
+            });
+
+            $("button:eq(2)").click(function(){
+                $("div").html("<b style='font-size:20pt;'>html 요소 변경</b>");
+            });
+
+            $("button:eq(3)").click(function(){
+                $("div").text("<b>text 요소 변경</b>");
+            });
+
+        });
+
+    </script>
+ </head>
+ <body>
+    <button>prepend()</button>
+    <button>append()</button>
+    <button>html()</button>
+    <button>text()</button>
+    <div>
+        <p>내부 삽입 01</p>
+        <p>내부 삽입 02</p>
+    </div>
+    
+ </body>
+ </html>
