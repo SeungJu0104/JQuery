@@ -1,0 +1,67 @@
+<!-- 
+
+$("<시작태그>내용<종료태그>") 하면 새로운 태그를 생성한다.
+
+after 함수
+: 태그 뒤에 요소가 추가된다.
+: 태그명 또는 태그 갖고와서.after("요소");
+
+insertAfter 함수
+: .앞의 태그를 ()안의 요소 뒤에 추가한다.
+: 태그명 또는 태그 갖고와서.insertAfter("요소");
+
+before 함수
+: 태그 전에 요소가 추가된다.
+: 태그명 또는 태그 갖고와서.before("요소");
+
+insertBefore 함수
+: .앞의 태그를 ()안의 요소 앞에 추가한다.
+: 태그명 또는 태그 갖고와서.before("요소");
+
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertion</title>
+    <script type="text/javascript" src="./jQuery/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("button:eq(0)").click(function(){ // after() 버튼 누르면
+                $("#base").after("<div>새로운 요소(after)</div>");
+                // base 라는 아이디 가진 div 태그 바로 뒤에 <div>새로운 요소(after)</div>가 추가된다.
+
+            });
+
+            $("button:eq(1)").click(function(){ // insertAfter() 버튼 누르면
+                $("<div>새로운 요소(insertAfter)</div>").insertAfter("#base");
+                // <div>새로운 요소(insertAfter)</div>가 base라는 아이디 가진 div 태그 바로 뒤에 추가된다.
+            });
+
+            $("button:eq(2)").click(function(){ // before() 버튼 누르면
+                $("#base").before("<div>새로운 요소(before)</div>");
+                // <div>새로운 요소(before)</div>가 base라는 아이디 가진 div 태그 바로 앞에 추가된다.
+            });
+
+            $("button:eq(3)").click(function(){ // insertBefore() 버튼 누르면
+                $("<div>새로운 요소(insertBefore)</div>").insertBefore("#base");
+                // <div>새로운 요소(insertBefore)</div>가 #base 아이디 가진 div 태그 바로 앞에 추가된다.
+            });
+
+        });
+
+    </script>
+ </head>
+ <body>
+    <button>after()</button>
+    <button>insertAfter()</button>
+    <button>before()</button>
+    <button>insertBefore()</button>
+    <br><hr><br>
+    <div id="base">
+        <p>외부 삽입</p>
+    </div>
+ </body>
+ </html>
