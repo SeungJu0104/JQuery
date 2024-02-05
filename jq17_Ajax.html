@@ -1,0 +1,132 @@
+<!-- 
+Ajax(Asynchronous Javascript And Xml)
+: 비동기 통신(자바 스크립트와 xml 이용)
+: $.ajax({url: 전송(통신)할 페이지 주소, method: 서버에 전송 방식(get / post), data: 서버에 전송할 데이터, dataType: 서버로부터 전송받을 데이터 타입(JSON, XML 등)});
+
+이외 Ajax 작성에 들어가는 추가적인 속성
+1. async
+: 동기화할지 비동기화할지 결정하는 속성
+
+2. complete
+: 
+
+톰캣이 어느정도 프론트엔드 변경은 즉시 반영해줘서 어느정도는 괜찮지만,
+만약 안되면 톰캣 다시 실행해보기
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ajax</title>
+<style type="text/css">
+*{
+	margin:0px;
+	padding:0px;
+}
+
+table, fieldset{
+	width:400px;
+}
+
+table tr:nth-child(odd){ /* 홀수번째 자식 태그 */
+	background-color:orange;
+}
+
+body{
+	width:1000px;
+	margin:50px auto;
+}
+
+</style>
+<script type="text/javascript" src="./js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+
+	$(function(){ // window.onload
+		$("#emp_search").click(function(){
+			let empid = $("input[name=empid]").val(); // name이 empid인 input 태그의 value 값을 empid 변수에 저장한다.
+			
+			if(empid.length == 3){ // 사원번호는 3자리이다.
+				$.ajax({
+					url:"emplist.xml", // 전송(통신)할 페이지 주소 또는 요청 url
+					// 즉, 누구(어디)와 통신할 것인가
+					
+					method:"get", // 서버에 전송하는 방식(get / post)
+					
+					//data:{"id":"test"}  // 서버에 전송할 데이터
+					
+					dataType: "xml",  // 서버로부터 전송받을 데이터 타입(JSON, XML, HTML, Script 등)
+				
+					success: function(data){ // 통신에 성공했을 때(응답까지 모두 받았다.), 함수 실행
+						console.log(data); // 데이터가 잘 들어왔는지 체크
+						
+						// 여기에 내가 필요한 코드 작성한다.
+						let empInfo = $(data).find("EMPLOYEE_ID:contains(" + empid + ")").parent(); 
+						// 들어온 data를 $붙여 jQuery로 만들어준 뒤에 
+						// find 함수 이용해 EMPLOYEE_ID 태그 중 
+						// empid(empid인 input 태그의 value 값)에 맞는 값을 찾는다.
+						// 그리고 이름, 이메일, 입사일도 모두 갖고 오기위해 parent 함수 이용해 부모 태그(ROW 태그) 찾는다.
+						// (단순히 siblings 함수 쓰면 empid 제외한 나머지 동일 레벨 태그 갖고온다.)
+						// 부모 태그(ROW)는 하위에 필요한 정보들을 모두 갖고 있다.
+						
+						if((empInfo).is("ROW")){ 
+						// empInfo는 부모태그 ROW를 저장했기 때문에 is 함수로 empInof에 저장된 것이 ROW 태그 맞는지 확인한다.
+							$("table input").each(function(i){ // each를 이용해 반복한다.
+								// i는 input 태그의 인덱스 번호
+								$(this).val($(empInfo).children().eq(i).text());
+								// this는 table 태그의 하위 input 태그들을 각 하나씩 거쳐간다.(each 때문에)(each는 각 this마다 함수 실행한다.)
+								// 각 input 태그의 value 값에는 empInfo의 i번째 인덱스에 있는 자식 태그의 내용이 저장된다.
+								// input 태그에 필요한 값의 순서와 empInfo의 자식태그들에 저장된 값의 순서가 동일하므로 단순 반복해서 출력해도 무방하다.
+								
+							});
+						}else{
+							alert("검색 대상이 존재하지 않습니다.");
+						}
+					
+					},
+					
+					error: function(request, error){ // 통신에 실패했을 때, 함수 실행
+						alert("error: " + error + "\n" + "code: " + request.status);
+					}
+				});
+			}else{
+				alert("사원번호를 제대로 입력해주세요.");
+			}
+		});
+	});
+
+</script>
+</head>
+<body>
+	<h1>데이터 가져오기</h1>
+	
+	<fieldset>
+		<legend>사원정보 조회</legend>
+		<input type="text" name="empid">
+		<input type="button" id="emp_search" value="조회">
+	</fieldset>
+	
+	<table>
+		<tr>
+			<th>사원번호</th>
+			<td><input type="text" name="empNum"></td>
+		</tr>
+		<tr>
+			<th>이 름</th>
+			<td><input type="text" name="lastName"></td>		
+		</tr>
+		<tr>
+			<th>이메일</th>
+			<td><input type="text" name="email"></td>		
+		</tr>
+		<tr>
+			<th>전화번호</th>
+			<td><input type="text" name="phone"></td>
+		</tr>
+		<tr>
+			<th>입사일</th>
+			<td><input type="text" name="hire"></td>
+		</tr>
+	</table>
+</body>
+</html>
